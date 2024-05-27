@@ -95,7 +95,7 @@ do {
     precioFinal += precioTotalProducto;
     cantidadFinal += cantidad;
 
-    alert('Agregaste '+cantidad+' '+producto+'(s)'+' al carrito. Total a pagar: $'+precioTotalProducto);
+    alert('Agregaste '+cantidad+' '+producto+'(s)'+' al carrito. Total a pagar es: $'+precioTotalProducto);
 
     continuarComprando = confirm("¿Querés agregar otro producto?");
 
@@ -103,9 +103,9 @@ do {
       let finalizarCompra = confirm("¿Desea finalizar la compra?");
 
       if (finalizarCompra = true) {
-        alert('Has comprado un total de '+cantidadFinal+' producto(s)'+' por un total de $'+precioFinal+'. '+' ¡Gracias por tu compra!');
+        alert('Compraste un total de '+cantidadFinal+' producto(s)'+' por un total de $'+precioFinal+'. '+' ¡Gracias por tu compra!');
       } else {
-        alert("Esperamos volver a verte pronto. ¡Hasta luego!");
+        alert("¡Nos vemos pronto!");
       }
     }
 } while (continuarComprando)
