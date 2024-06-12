@@ -1,111 +1,60 @@
-let producto = '';
-let precio = 0;
-let madera = '';
-let cantidad = 0;
-let cantidadFinal = 0;
-let continuarComprando = true;
-let precioFinal = 0;
+const muebles = [
+    { nombre: "Sillon", precio: 30000, enStock: true },
+    { nombre: "Mesa", precio: 40000, enStock: true },
+    { nombre: "Cama", precio: 20000, enStock: true },
+    { nombre: "Silla", precio: 10000, enStock: true },
+    { nombre: "Estantería", precio: 15000, enStock: true },
+];
 
-alert('Bienvenido al Workerrs, un lugar donde encontrarás el mueble que tu hogar necesita');
+const filtrarEnStock = () => muebles.filter(mueble => mueble.enStock);
+const calcularTotal = (carrito) => carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
 
-//ingreso de datos
-do {
-    producto = prompt('Selecciona el producto: (mesa, silla, estanteria o puerta)');
+const simuladorDeCompra = () => {
+    let carrito = [];
+    let continuarComprando = true;
 
-    madera = prompt('Selecciona el tipo de madera: (roble, pino o nogal)');
+    let mensajeBienvenida = alert('Bienvenido/a a The Workerrs, un lugar donde encontrarás el mueble que tu hogar necesita');
 
-    cantidad = parseInt(prompt('Selecciona la cantidad: (la cantidad maxima es de 25)'));
+    while (continuarComprando) {
+        const disponibles = filtrarEnStock();
 
-    while (isNaN(cantidad) || cantidad <= 0 || cantidad > 25) {
-        alert('Selecciona una cantidad valida');
-        cantidad = parseInt(prompt('Selecciona la cantidad: (la cantidad maxima es de 25)'));
+        let mensaje = "Muebles disponibles en stock:\n";
+        disponibles.forEach((mueble, index) => {
+            mensaje += `${index + 1}. ${mueble.nombre} - $${mueble.precio}\n`;
+        });
+
+        const seleccion = parseInt(prompt(mensaje + "Selecciona un mueble por su número:")) - 1;
+
+        //condicional
+        if (seleccion < 0 || seleccion >= disponibles.length) {
+            alert("Selección inválida. Por favor, intenta de nuevo.");
+            continue;
+        }
+
+        const muebleSeleccionado = disponibles[seleccion];
+        const cantidad = parseInt(prompt(`¿Cuántos ${muebleSeleccionado.nombre}s deseas comprar?`));
+
+        //condicional
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert("Cantidad inválida. Por favor, intenta de nuevo.");
+            continue;
+        }
+
+        carrito.push({ ...muebleSeleccionado, cantidad });
+
+        continuarComprando = confirm("¿Deseas agregar otro mueble al carrito?");
     }
 
-    switch (producto) {
-        case 'mesa':
-            switch (madera) {
-                case 'roble':
-                    precio = 150;
-                    break;
-                case 'pino':
-                    precio = 100;
-                    break;
-                case 'nogal':
-                    precio = 200;
-                    break;
-                default:
-                    alert('Tipo de madera no válido');
-                    break;
-            }
-            break;
-        case 'silla':
-            switch (madera) {
-                case 'roble':
-                    precio = 50;
-                    break;
-                case 'pino':
-                    precio = 30;
-                    break;
-                case 'nogal':
-                    precio = 70;
-                    break;
-                default:
-                    alert('Tipo de madera no válido');
-                    break;
-            }
-            break;
-        case 'estanteria':
-            switch (madera) {
-                case 'roble':
-                    precio = 120;
-                    break;
-                case 'pino':
-                    precio = 80;
-                    break;
-                case 'nogal':
-                    precio = 160;
-                    break;
-                default:
-                    alert('Tipo de madera no válido');
-                    break;
-            }
-            break;
-        case 'puerta':
-            switch (madera) {
-                case 'roble':
-                    precio = 200;
-                    break;
-                case 'pino':
-                    precio = 150;
-                    break;
-                case 'nogal':
-                    precio = 250;
-                    break;
-                default:
-                    alert('Tipo de madera no válido');
-                    break;
-            }
-        default:
-            alert('Producto no válido');
-            break;
-    }
+    const total = calcularTotal(carrito);
 
+    let resumen = "Resumen de tu compra:\n";
+    carrito.forEach(item => {
+        resumen += `${item.cantidad}x ${item.nombre} - $${item.precio} cada uno\n`;
+    });
+    resumen += `Total: $${total}`;
 
-    let precioTotalProducto = precio * cantidad;
-    precioFinal += precioTotalProducto;
-    cantidadFinal += cantidad;
+    alert(resumen);
+    alert('¡Gracias por tu compra!');
+};
 
-    alert('Agregaste '+cantidad+' '+producto+'(s)'+' al carrito. Total a pagar es: $'+precioTotalProducto);
-
-    continuarComprando = confirm("¿Querés agregar otro producto?");
-
-    if (!continuarComprando) {
-      let finalizarCompra = confirm("¿Desea finalizar la compra?");
-
-      if (finalizarCompra = true) {
-        alert('Compraste un total de '+cantidadFinal+' producto(s)'+' por un total de $'+precioFinal+'. '+' ¡Gracias por tu compra!');
-      } else {
-        alert("¡Nos vemos pronto!");
-      }
-    }
-} while (continuarComprando)
+simuladorDeCompra();
